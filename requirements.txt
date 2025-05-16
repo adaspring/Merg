@@ -1,0 +1,6 @@
+bs4
+regex
+spacy
+pypinyin
+python-docx
+pymupdf
