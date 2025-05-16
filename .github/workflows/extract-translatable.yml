@@ -1,1 +1,41 @@
-hh
+name: Universal Text Extractor
+
+on:
+  push:
+    paths:
+      - '**.py'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt || true
+          pip install bs4 regex spacy pypinyin python-docx pymupdf
+
+      - name: Run extractor (example)
+        run: |
+          python main.py sample.pdf --lang en
+
+      - name: Merge translation (example TXT)
+        run: |
+          python merge_txt.py || true
+
+      - name: Merge translation (example DOCX)
+        run: |
+          python merge_docx.py || true
+
+      - name: Merge translation (example PDF)
+        run: |
+          python merge_pdf.py || true
